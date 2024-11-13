@@ -27,12 +27,12 @@ const PaymentModal: React.FC<ModalProps> = ({ isOpen, closeModal, message }) => 
       onRequestClose={closeModal}
       contentLabel="Payment Modal"
       appElement={document.getElementById("root") || document.body}
-      className="modal-container"
-      overlayClassName="modal-overlay"
+      className="modal-container max-w-lg w-full p-6"
+      overlayClassName="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
     >
-      <div className="flex flex-col items-center justify-center p-6">
+      <div className="flex flex-col items-center justify-center">
         <h2 className="text-xl font-semibold">Payment Processing</h2>
-        <p className="mt-4">
+        <p className="mt-4 text-center">
           {message}
           {message === "Processing payment..." && (
             <span className="animate-pulse">{dots}</span>

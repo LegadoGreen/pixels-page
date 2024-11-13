@@ -18,17 +18,34 @@ const PixelGrid: React.FC<PixelGridProps> = ({ selectedColor }) => {
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      const newPixelSize = width < 640 ? 6 : width < 1024 ? 10 : 12;
-      setPixelSize(newPixelSize);
+      const height = window.innerHeight;
+
+      // Adjust pixel size for smaller screens
+      if (width < 640) {
+        setPixelSize(Math.floor(width / (GRID_SIZE + 4))); // Make pixels smaller for mobile
+      } else if (width < 1024) {
+        setPixelSize(Math.floor(width / (GRID_SIZE + 3))); // For tablets, adjust size slightly larger
+      } else {
+        setPixelSize(12); // For larger screens, use the original size
+      }
+
+      // Adjust the grid height based on available height for better fit on mobile
+      const availableHeight = height - 100; // Adjust this as needed
+      const rows = Math.floor(availableHeight / pixelSize);
+      if (rows < GRID_SIZE) {
+        setPixelSize(Math.floor(availableHeight / GRID_SIZE)); // Recalculate size based on height if it's too small
+      }
     };
+
     handleResize();
     window.addEventListener("resize", handleResize);
+
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [pixelSize]);
 
   const handleMouseDown = (x: number, y: number, e: React.MouseEvent) => {
     // Prevent dragging of pixels
-    e.preventDefault(); // Prevent default behavior of mouse events (e.g., image dragging)
+    e.preventDefault();
 
     setIsDragging(true);
     setPixelColor(`${x}-${y}`, selectedColor);
@@ -55,6 +72,7 @@ const PixelGrid: React.FC<PixelGridProps> = ({ selectedColor }) => {
         gridTemplateColumns: `repeat(${GRID_SIZE}, ${pixelSize}px)`,
         width: `${GRID_SIZE * pixelSize}px`,
         height: `${GRID_SIZE * pixelSize}px`,
+        margin: "0 auto", // Center the grid horizontally
       }}
       onMouseLeave={handleMouseUp}
     >
