@@ -18,3 +18,29 @@ body {
   background-color: var(--background);
   font-family: 'Inter', sans-serif;
 }
+
+/* Add this to your global CSS file or include as part of the modal component styling */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Aligns the modal to the top */
+  z-index: 50; /* Ensures the modal is above other elements */
+}
+
+.modal-container {
+  position: relative;
+  top: 10%; /* Adjust the percentage to move the modal down or up */
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+  z-index: 100; /* Ensures the modal container appears above other content */
+}
