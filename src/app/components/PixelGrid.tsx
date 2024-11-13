@@ -26,7 +26,10 @@ const PixelGrid: React.FC<PixelGridProps> = ({ selectedColor }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleMouseDown = (x: number, y: number) => {
+  const handleMouseDown = (x: number, y: number, e: React.MouseEvent) => {
+    // Prevent dragging of pixels
+    e.preventDefault(); // Prevent default behavior of mouse events (e.g., image dragging)
+
     setIsDragging(true);
     setPixelColor(`${x}-${y}`, selectedColor);
   };
@@ -39,6 +42,10 @@ const PixelGrid: React.FC<PixelGridProps> = ({ selectedColor }) => {
     if (isDragging) {
       setPixelColor(`${x}-${y}`, selectedColor);
     }
+  };
+
+  const handleDragStart = (e: React.DragEvent) => {
+    e.preventDefault(); // Prevent drag action on the pixels
   };
 
   return (
@@ -60,9 +67,10 @@ const PixelGrid: React.FC<PixelGridProps> = ({ selectedColor }) => {
         return (
           <div
             key={id}
-            onMouseDown={() => handleMouseDown(x, y)}
+            onMouseDown={(e) => handleMouseDown(x, y, e)}
             onMouseUp={handleMouseUp}
             onMouseEnter={() => handleMouseEnter(x, y)}
+            onDragStart={handleDragStart} // Prevent drag behavior on the pixel
             className="cursor-pointer transition-all duration-150"
             style={{
               backgroundColor: color,

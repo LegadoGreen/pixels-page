@@ -7,7 +7,7 @@ import BuyButton from "./BuyButton";
 import { usePixelStore } from "../store/usePixelStore";
 
 const CanvasContainer: React.FC = () => {
-  const [selectedColor, setSelectedColor] = useState("#000000"); // Default color is black
+  const [selectedColor, setSelectedColor] = useState("#000000");
   const { selectedPixels } = usePixelStore();
 
   const selectedCount = selectedPixels.size;

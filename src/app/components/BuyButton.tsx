@@ -1,6 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import { successToast } from "@/toast/Sucess";
+import PaymentModal from "./PaymentModal";
 
 interface BuyButtonProps {
   totalPrice: number;
@@ -46,20 +48,44 @@ const getTextColor = (hexColor: string) => {
 };
 
 const BuyButton: React.FC<BuyButtonProps> = ({ totalPrice, selectedColor }) => {
-  const textColor = getTextColor(selectedColor);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [paymentMessage, setPaymentMessage] = useState("Processing payment...");
 
   const handleBuy = () => {
-    alert(`Thank you for your purchase! Total: $${totalPrice} USD`);
+    setIsModalOpen(true);
+    setPaymentMessage("Processing payment...");
+
+    // Simulate a payment process
+    setTimeout(() => {
+      setPaymentMessage("Payment Successful! Minting your pixels...");
+
+      // Simulate minting process
+      setTimeout(() => {
+        setIsModalOpen(false); // Close the modal after the "minting" process is done
+      }, 3000);
+
+      setTimeout(() => {
+        successToast();
+      }, 4000);
+    }, 3000); // Simulate payment processing time
   };
 
+
+  const textColor = getTextColor(selectedColor);
+
   return (
-    <button
-      onClick={handleBuy}
-      className="px-4 py-2 rounded-lg shadow-md transition"
-      style={{ backgroundColor: selectedColor, color: textColor }}
-    >
-      Buy Now
-    </button>
+    <>
+      <button
+        onClick={handleBuy}
+        className="px-4 py-2 rounded-lg shadow-md transition"
+        style={{ backgroundColor: selectedColor, color: textColor }}
+      >
+        Buy Now
+      </button>
+
+      {/* Payment Modal */}
+      <PaymentModal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} message={paymentMessage} />
+    </>
   );
 };
 
