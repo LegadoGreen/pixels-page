@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { usePixelStore } from "../store/usePixelStore";
 
 interface PixelGridProps {
@@ -8,11 +8,23 @@ interface PixelGridProps {
 }
 
 const GRID_SIZE = 100;
-const PIXEL_SIZE = 12;
 
 const PixelGrid: React.FC<PixelGridProps> = ({ selectedColor }) => {
   const { selectedPixels, setPixelColor } = usePixelStore();
   const [isDragging, setIsDragging] = useState(false);
+  const [pixelSize, setPixelSize] = useState(12);
+
+  // Adjust pixel size based on screen width
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      const newPixelSize = width < 640 ? 6 : width < 1024 ? 10 : 12;
+      setPixelSize(newPixelSize);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleMouseDown = (x: number, y: number) => {
     setIsDragging(true);
@@ -33,9 +45,9 @@ const PixelGrid: React.FC<PixelGridProps> = ({ selectedColor }) => {
     <div
       className="grid shadow-lg rounded-lg border"
       style={{
-        gridTemplateColumns: `repeat(${GRID_SIZE}, ${PIXEL_SIZE}px)`,
-        width: `${GRID_SIZE * PIXEL_SIZE}px`,
-        height: `${GRID_SIZE * PIXEL_SIZE}px`,
+        gridTemplateColumns: `repeat(${GRID_SIZE}, ${pixelSize}px)`,
+        width: `${GRID_SIZE * pixelSize}px`,
+        height: `${GRID_SIZE * pixelSize}px`,
       }}
       onMouseLeave={handleMouseUp}
     >
@@ -54,8 +66,8 @@ const PixelGrid: React.FC<PixelGridProps> = ({ selectedColor }) => {
             className="cursor-pointer transition-all duration-150"
             style={{
               backgroundColor: color,
-              width: `${PIXEL_SIZE}px`,
-              height: `${PIXEL_SIZE}px`,
+              width: `${pixelSize}px`,
+              height: `${pixelSize}px`,
             }}
           />
         );

@@ -1,18 +1,16 @@
 import { create } from "zustand";
 
-interface PixelState {
+interface PixelStore {
   selectedPixels: Map<string, string>;
   setPixelColor: (id: string, color: string) => void;
 }
 
-export const usePixelStore = create<PixelState>((set) => ({
+export const usePixelStore = create<PixelStore>((set) => ({
   selectedPixels: new Map(),
-
-  setPixelColor: (id: string, color: string) => {
+  setPixelColor: (id, color) =>
     set((state) => {
-      const updatedPixels = new Map(state.selectedPixels);
-      updatedPixels.set(id, color);
-      return { selectedPixels: updatedPixels };
-    });
-  },
+      const newMap = new Map(state.selectedPixels);
+      newMap.set(id, color);
+      return { selectedPixels: newMap };
+    }),
 }));
