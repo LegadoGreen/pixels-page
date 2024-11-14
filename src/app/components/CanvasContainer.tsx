@@ -27,7 +27,7 @@ const CanvasContainer: React.FC = () => {
           {selectedCount > 0 && (
             <div className="text-center">
               <p className="text-lg font-semibold">Total: ${totalPrice} USD</p>
-              <BuyButton totalPrice={totalPrice} selectedColor={selectedColor} />
+              <BuyButton selectedColor={selectedColor} />
             </div>
           )}
         </div>

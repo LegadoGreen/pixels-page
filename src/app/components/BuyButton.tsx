@@ -5,7 +5,6 @@ import { successToast } from "@/toast/Sucess";
 import PaymentModal from "./PaymentModal";
 
 interface BuyButtonProps {
-  totalPrice: number;
   selectedColor: string;
 }
 
@@ -47,7 +46,7 @@ const getTextColor = (hexColor: string) => {
   return lum > 0.5 ? "black" : "white"; // Luminance threshold for contrast
 };
 
-const BuyButton: React.FC<BuyButtonProps> = ({ totalPrice, selectedColor }) => {
+const BuyButton: React.FC<BuyButtonProps> = ({ selectedColor }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [paymentMessage, setPaymentMessage] = useState("Processing payment...");
 
