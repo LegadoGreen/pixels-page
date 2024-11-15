@@ -79,7 +79,7 @@ const BuyButton: React.FC<BuyButtonProps> = ({ selectedColor }) => {
         className="px-4 py-2 rounded-lg shadow-md transition"
         style={{ backgroundColor: selectedColor, color: textColor }}
       >
-        Test
+        Buy Now
       </button>
 
       {/* Payment Modal */}
